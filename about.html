@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Біз туралы - Qadam</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header class="dashboard-header">
+        <div class="header-left">
+            <button id="sidebar-toggle" class="icon-btn">☰</button>
+            <div class="logo-text"><a href="index.html">Qadam</a></div>
+        </div>
+        <div class="header-right">
+            <select id="language-switch" class="lang-select">
+                <option value="kk">ҚАЗ</option>
+                <option value="ru">РУС</option>
+                <option value="en">ENG</option>
+            </select>
+            <label class="theme-switch" for="theme-checkbox">
+                <input type="checkbox" id="theme-checkbox" onchange="window.toggleTheme()" />
+                <div class="slider round">
+                    <span class="icon sun">☀️</span>
+                    <span class="icon moon">🌙</span>
+                </div>
+            </label>
+            <div class="auth-nav" style="display:flex; align-items:center; gap:10px;"></div>
+        </div>
+    </header>
+
+    <nav id="sidebar" class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-text"><a href="index.html">Qadam</a></div>
+            <div style="display:flex; gap:5px;">
+                <button id="sidebar-position-btn" class="icon-btn" title="Оңға/Солға" style="width:30px; height:30px; font-size:1rem;">⇋</button>
+                <button id="sidebar-close" class="icon-btn" style="width:30px; height:30px; font-size:1rem;">×</button>
+            </div>
+        </div>
+        <div class="sidebar-menu">
+            <a href="index.html" data-i18n="menu-home">Басты бет</a>
+            <a href="about.html" class="active" data-i18n="menu-about">Біз туралы</a>
+            <a href="services.html" data-i18n="menu-services">Қызметтер</a>
+            <a href="blog.html" data-i18n="menu-blog">Блог</a>
+            <a href="contact.html" data-i18n="menu-contact">Байланыс</a>
+        </div>
+    </nav>
+
+    <main style="padding: 40px; max-width: 1000px; margin: 0 auto;">
+        <h2 data-i18n="about-title">Біз туралы</h2>
+        <div style="margin-top: 20px;">
+            <p data-i18n="about-p1">Qadam - бұл жаңа заман талабына сай, креативті және сапалы білім беруді мақсат тұтқан онлайн платформа. Біздің мақсат - әрбір адамға сапалы IT мамандықтарын қолжетімді ету.</p>
+            <br>
+            <p data-i18n="about-p2">Платформа 2024 жылы энтузиастар тобымен құрылған. Қазіргі таңда бізде 5000-нан астам студент оқып, өз мақсаттарына жетті.</p>
+            <br>
+            <p data-i18n="about-p3">Біздің сарапшы менторлар заманауи бағдарламалар көмегімен нақты жобаларды жасауға баулиды!</p>
+        </div>
+        
+        <!-- 1, 4, 6 тапсырмалар үшін: Жасырын мәтін және батырма -->
+        <p id="extra-text" style="margin-top: 15px;" data-i18n="about-extra">Бұл біздің тарихымыз туралы толығырақ ақпарат. Біз әрқашан алға ұмтылып, жаңадан шыққан প্রযুক্তিларды студенттерімізге бірінші болып үйретеміз. Бізге қосыл және мықты маман бол!</p>
+        <button id="read-more-btn" class="btn" style="margin-top: 15px;" data-i18n="about-read-more">Көбірек оқу</button>
+
+        <img src="images/about_team.png" alt="Біздің Команда" style="width: 100%; border-radius: 10px; margin-top: 30px; display: block;">
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Qadam Online Courses. Барлық құқықтар қорғалған.</p>
+    </footer>
+
+    <script>
+        function toggleTheme() {
+            document.body.classList.toggle('dark-theme');
+        }
+    </script>
+    <script src="js/i18n.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/auth.js"></script>
+</body>
+</html>
