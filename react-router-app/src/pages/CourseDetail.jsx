@@ -129,7 +129,14 @@ function CourseDetail() {
             const res = await fetch(`https://qadam-backend-x1d2.onrender.com/api/lessons/${lessonId}/questions`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
-            if (res.ok) setQuestions(await res.json());
+            if (res.ok) {
+                const data = await res.json();
+                const parsedData = data.map(q => ({
+                    ...q,
+                    pairs: q.pairs && typeof q.pairs === 'string' ? JSON.parse(q.pairs) : q.pairs
+                }));
+                setQuestions(parsedData);
+            }
         } catch (e) { console.error(e); }
     };
 
