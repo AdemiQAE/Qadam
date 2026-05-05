@@ -49,7 +49,7 @@ function Services() {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify(formData)
+                body: JSON.stringify({...formData, video_url: formData.videoUrl})
             });
             if (res.ok) {
                 setFormData({ title: '', description: '', price: '', videoUrl: '', year: new Date().getFullYear().toString(), phone: '+7 700 000 0000' });
@@ -142,8 +142,8 @@ function Services() {
                                 <div key={course.id} style={{ background: 'var(--bg-card)', borderRadius: '8px', overflow: 'hidden', border: '1px solid var(--border-color)', display: 'flex', flexDirection: 'column' }}>
                                     {/* Video iframe preview if available */}
                                     <div style={{ height: '180px', background: '#ccc', position: 'relative' }}>
-                                        {course.videoUrl ? (
-                                            <iframe src={course.videoUrl} frameBorder="0" allowFullScreen style={{ width: '100%', height: '100%' }}></iframe>
+                                        {course.video_url || course.videoUrl ? (
+                                            <iframe src={course.video_url || course.videoUrl} frameBorder="0" allowFullScreen style={{ width: '100%', height: '100%' }}></iframe>
                                         ) : (
                                             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', color: '#666' }}>Видео жоқ</div>
                                         )}

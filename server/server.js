@@ -93,11 +93,11 @@ app.get('/api/courses', async (req, res) => {
 });
 
 app.post('/api/courses', verifyToken, async (req, res) => {
-    const { title, description, year, phone, price } = req.body;
+    const { title, description, year, phone, price, video_url } = req.body;
     try {
         const result = await pool.query(
-            `INSERT INTO courses (title, description, teacher_id, year, updates, phone, price) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id`,
-            [title, description, req.userId, year, new Date().toISOString().split('T')[0], phone, price]
+            `INSERT INTO courses (title, description, teacher_id, year, updates, phone, price, video_url) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id`,
+            [title, description, req.userId, year, new Date().toISOString().split('T')[0], phone, price, video_url]
         );
         res.status(201).json({ message: 'Course created', id: result.rows[0].id });
     } catch (e) {

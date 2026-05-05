@@ -39,6 +39,7 @@ const initDB = async () => {
                 students_count INTEGER DEFAULT 0,
                 phone TEXT,
                 price INTEGER,
+                video_url TEXT,
                 FOREIGN KEY(teacher_id) REFERENCES users(id) ON DELETE CASCADE
             )
         `);
