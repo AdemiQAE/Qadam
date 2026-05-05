@@ -14,15 +14,15 @@ function AdminPanel() {
 
     const fetchData = async () => {
         try {
-            const uRes = await fetch('http://localhost:5000/api/users', {
+            const uRes = await fetch('https://qadam-backend.onrender.com/api/users', {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if(uRes.ok) setUsers(await uRes.json());
 
-            const cRes = await fetch('http://localhost:5000/api/courses');
+            const cRes = await fetch('https://qadam-backend.onrender.com/api/courses');
             if(cRes.ok) setCourses(await cRes.json());
 
-            const mRes = await fetch('http://localhost:5000/api/messages', {
+            const mRes = await fetch('https://qadam-backend.onrender.com/api/messages', {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if(mRes.ok) setMessages(await mRes.json());
@@ -31,7 +31,7 @@ function AdminPanel() {
 
     const toggleBlockUser = async (id, currentStatus) => {
         try {
-            const res = await fetch(`http://localhost:5000/api/users/${id}/block`, {
+            const res = await fetch(`https://qadam-backend.onrender.com/api/users/${id}/block`, {
                 method: 'PUT',
                 headers: { 
                     'Content-Type': 'application/json',
@@ -47,7 +47,7 @@ function AdminPanel() {
         if(!window.confirm('Пайдаланушының рөлін өзгертесіз бе?')) return;
         try {
             const newRole = currentRole === 'admin' ? 'user' : 'admin';
-            const res = await fetch(`http://localhost:5000/api/users/${id}/role`, {
+            const res = await fetch(`https://qadam-backend.onrender.com/api/users/${id}/role`, {
                 method: 'PUT',
                 headers: { 
                     'Content-Type': 'application/json',
@@ -64,7 +64,7 @@ function AdminPanel() {
         if(!messageText || !messageText.trim()) return;
 
         try {
-            const res = await fetch(`http://localhost:5000/api/messages/admin`, {
+            const res = await fetch(`https://qadam-backend.onrender.com/api/messages/admin`, {
                 method: 'POST',
                 headers: { 
                     'Content-Type': 'application/json',
@@ -84,7 +84,7 @@ function AdminPanel() {
     const handleDeleteUser = async (id) => {
         if(!window.confirm('Пайдаланушыны өшіресіз бе? Бұл оның барлық курстарын да өшіреді!')) return;
         try {
-            const res = await fetch(`http://localhost:5000/api/users/${id}`, {
+            const res = await fetch(`https://qadam-backend.onrender.com/api/users/${id}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}` }
             });
@@ -95,7 +95,7 @@ function AdminPanel() {
     const handleDeleteCourse = async (id) => {
         if(!window.confirm('Курсты өшіресіз бе?')) return;
         try {
-            const res = await fetch(`http://localhost:5000/api/courses/${id}`, {
+            const res = await fetch(`https://qadam-backend.onrender.com/api/courses/${id}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}` }
             });
@@ -108,7 +108,7 @@ function AdminPanel() {
         if(!replyText || !replyText.trim()) return;
 
         try {
-            const res = await fetch(`http://localhost:5000/api/messages/${id}/reply`, {
+            const res = await fetch(`https://qadam-backend.onrender.com/api/messages/${id}/reply`, {
                 method: 'PUT',
                 headers: { 
                     'Content-Type': 'application/json',

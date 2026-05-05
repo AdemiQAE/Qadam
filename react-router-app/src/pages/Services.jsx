@@ -26,7 +26,7 @@ function Services() {
 
     const fetchCourses = () => {
         setLoading(true);
-        fetch('http://localhost:5000/api/courses')
+        fetch('https://qadam-backend.onrender.com/api/courses')
             .then(res => res.json())
             .then(data => {
                 setCourses(data);
@@ -43,7 +43,7 @@ function Services() {
         if (!user) return;
 
         try {
-            const res = await fetch('http://localhost:5000/api/courses', {
+            const res = await fetch('https://qadam-backend.onrender.com/api/courses', {
                 method: 'POST',
                 headers: { 
                     'Content-Type': 'application/json',

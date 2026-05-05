@@ -39,7 +39,7 @@ function CourseDetail() {
 
     const fetchCourse = async () => {
         try {
-            const res = await fetch(`http://localhost:5000/api/courses`);
+            const res = await fetch(`https://qadam-backend.onrender.com/api/courses`);
             const data = await res.json();
             const found = data.find(c => c.id === parseInt(id));
             if (found) setCourse(found);
@@ -50,7 +50,7 @@ function CourseDetail() {
 
     const fetchLessons = async () => {
         try {
-            const res = await fetch(`http://localhost:5000/api/courses/${id}/lessons`, {
+            const res = await fetch(`https://qadam-backend.onrender.com/api/courses/${id}/lessons`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (res.ok) setLessons(await res.json());
@@ -59,7 +59,7 @@ function CourseDetail() {
 
     const fetchResults = async () => {
         try {
-            const res = await fetch(`http://localhost:5000/api/courses/${id}/results`, {
+            const res = await fetch(`https://qadam-backend.onrender.com/api/courses/${id}/results`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (res.ok) setResults(await res.json());
@@ -68,7 +68,7 @@ function CourseDetail() {
 
     const checkRequestStatus = async () => {
         try {
-            const res = await fetch('http://localhost:5000/api/requests/student', {
+            const res = await fetch('https://qadam-backend.onrender.com/api/requests/student', {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             const data = await res.json();
@@ -81,7 +81,7 @@ function CourseDetail() {
 
     const handleRequestPermission = async () => {
         try {
-            const res = await fetch('http://localhost:5000/api/requests', {
+            const res = await fetch('https://qadam-backend.onrender.com/api/requests', {
                 method: 'POST',
                 headers: { 
                     'Content-Type': 'application/json',
@@ -104,7 +104,7 @@ function CourseDetail() {
             return;
         }
         try {
-            const res = await fetch(`http://localhost:5000/api/courses/${id}/lessons`, {
+            const res = await fetch(`https://qadam-backend.onrender.com/api/courses/${id}/lessons`, {
                 method: 'POST',
                 headers: { 
                     'Content-Type': 'application/json',
@@ -126,7 +126,7 @@ function CourseDetail() {
         }
         setActiveLessonId(lessonId);
         try {
-            const res = await fetch(`http://localhost:5000/api/lessons/${lessonId}/questions`, {
+            const res = await fetch(`https://qadam-backend.onrender.com/api/lessons/${lessonId}/questions`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (res.ok) setQuestions(await res.json());
@@ -161,7 +161,7 @@ function CourseDetail() {
             return;
         }
         try {
-            const res = await fetch(`http://localhost:5000/api/lessons/${lessonId}/questions`, {
+            const res = await fetch(`https://qadam-backend.onrender.com/api/lessons/${lessonId}/questions`, {
                 method: 'POST',
                 headers: { 
                     'Content-Type': 'application/json',
