@@ -103,14 +103,18 @@ function LessonDetail() {
             <h2 style={{ marginBottom: '20px' }}>{lesson.title}</h2>
             
             {lesson.video_url && (
-                <div style={{ position: 'relative', paddingBottom: '56.25%', height: 0, marginBottom: '20px' }}>
-                    <iframe 
-                        src={lesson.video_url} 
-                        frameBorder="0" 
-                        allowFullScreen 
-                        style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', borderRadius: '8px' }}>
-                    </iframe>
-                </div>
+                lesson.video_url.match(/\.(jpeg|jpg|gif|png)$/i) || lesson.video_url.includes('unsplash.com') || lesson.video_url.includes('images') ? (
+                    <img src={lesson.video_url} alt={lesson.title} style={{ width: '100%', maxHeight: '500px', objectFit: 'cover', borderRadius: '8px', marginBottom: '20px' }} />
+                ) : (
+                    <div style={{ position: 'relative', paddingBottom: '56.25%', height: 0, marginBottom: '20px' }}>
+                        <iframe 
+                            src={lesson.video_url} 
+                            frameBorder="0" 
+                            allowFullScreen 
+                            style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', borderRadius: '8px' }}>
+                        </iframe>
+                    </div>
+                )
             )}
 
             <div style={{ lineHeight: '1.6', fontSize: '1.1rem', marginBottom: '30px', whiteSpace: 'pre-wrap' }}>

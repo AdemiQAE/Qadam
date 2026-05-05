@@ -241,7 +241,7 @@ function CourseDetail() {
                             <h4 style={{ marginBottom: '10px' }}>{t('course-add-lesson')}</h4>
                             <form onSubmit={handleAddLesson} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                                 <input required type="text" placeholder={t('course-lesson-title')} value={newLesson.title} onChange={e => setNewLesson({...newLesson, title: e.target.value})} style={{ padding: '8px' }} />
-                                <input type="url" placeholder={t('course-lesson-video')} value={newLesson.video_url} onChange={e => setNewLesson({...newLesson, video_url: e.target.value})} style={{ padding: '8px' }} />
+                                <input type="url" placeholder="Сілтеме (Видео немесе Сурет)" value={newLesson.video_url} onChange={e => setNewLesson({...newLesson, video_url: e.target.value})} style={{ padding: '8px' }} />
                                 <textarea required placeholder={t('course-lesson-text')} value={newLesson.content_text} onChange={e => setNewLesson({...newLesson, content_text: e.target.value})} style={{ padding: '8px', minHeight: '80px' }} />
                                 <button type="submit" className="btn" style={{ alignSelf: 'flex-start' }} disabled={isSubmitting}>{isSubmitting ? 'Сақталуда...' : t('course-btn-add')}</button>
                             </form>

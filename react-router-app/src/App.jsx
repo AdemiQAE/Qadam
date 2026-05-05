@@ -15,6 +15,7 @@ import Profile from './pages/Profile';
 import CourseDetail from './pages/CourseDetail';
 import LessonDetail from './pages/LessonDetail';
 import AdminPanel from './pages/AdminPanel';
+import BlogDetail from './pages/BlogDetail';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/services" element={<Services />} />
             <Route path="/blog" element={<Blog />} />
+            <Route path="/blog/:id" element={<BlogDetail />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />

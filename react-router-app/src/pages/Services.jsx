@@ -98,7 +98,7 @@ function Services() {
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px', marginTop: '15px' }}>
                         <input required type="text" placeholder="Атауы" value={formData.title} onChange={e => setFormData({...formData, title: e.target.value})} style={{ padding: '10px' }} />
                         <input required type="number" placeholder="Бағасы (₸)" value={formData.price} onChange={e => setFormData({...formData, price: e.target.value})} style={{ padding: '10px' }} />
-                        <input required type="url" placeholder="Презентациялық Видео URL (Iframe)" value={formData.videoUrl} onChange={e => setFormData({...formData, videoUrl: e.target.value})} style={{ padding: '10px' }} />
+                        <input required type="url" placeholder="Сілтеме (Видео немесе Сурет)" value={formData.videoUrl} onChange={e => setFormData({...formData, videoUrl: e.target.value})} style={{ padding: '10px' }} />
                         <input required type="text" placeholder="Телефон" value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} style={{ padding: '10px' }} />
                     </div>
                     <textarea required placeholder="Сипаттамасы" rows="3" value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} style={{ width: '100%', padding: '10px', marginTop: '15px' }} />
@@ -140,12 +140,16 @@ function Services() {
                         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '20px' }}>
                             {filteredCourses.map(course => (
                                 <div key={course.id} style={{ background: 'var(--bg-card)', borderRadius: '8px', overflow: 'hidden', border: '1px solid var(--border-color)', display: 'flex', flexDirection: 'column' }}>
-                                    {/* Video iframe preview if available */}
+                                    {/* Media preview if available */}
                                     <div style={{ height: '180px', background: '#ccc', position: 'relative' }}>
                                         {course.video_url || course.videoUrl ? (
-                                            <iframe src={course.video_url || course.videoUrl} frameBorder="0" allowFullScreen style={{ width: '100%', height: '100%' }}></iframe>
+                                            (course.video_url || course.videoUrl).match(/\.(jpeg|jpg|gif|png)$/i) || (course.video_url || course.videoUrl).includes('unsplash.com') || (course.video_url || course.videoUrl).includes('images') ? (
+                                                <img src={course.video_url || course.videoUrl} alt={course.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                            ) : (
+                                                <iframe src={course.video_url || course.videoUrl} frameBorder="0" allowFullScreen style={{ width: '100%', height: '100%' }}></iframe>
+                                            )
                                         ) : (
-                                            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', color: '#666' }}>Видео жоқ</div>
+                                            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', color: '#666' }}>Медиа жоқ</div>
                                         )}
                                     </div>
                                     
