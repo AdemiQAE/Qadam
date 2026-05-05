@@ -32,26 +32,26 @@ function Profile() {
     const fetchData = async () => {
         try {
             // Fetch authored courses
-            const coursesRes = await fetch('https://qadam-backend.onrender.com/api/courses/my', {
+            const coursesRes = await fetch('https://qadam-backend-x1d2.onrender.com/api/courses/my', {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if(coursesRes.ok) setMyCourses(await coursesRes.json());
 
             // Fetch requests for my courses (teacher view)
-            const reqTeacherRes = await fetch('https://qadam-backend.onrender.com/api/requests/teacher', {
+            const reqTeacherRes = await fetch('https://qadam-backend-x1d2.onrender.com/api/requests/teacher', {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if(reqTeacherRes.ok) setRequests(await reqTeacherRes.json());
 
             // Fetch my requests (student view)
-            const reqStudentRes = await fetch('https://qadam-backend.onrender.com/api/requests/student', {
+            const reqStudentRes = await fetch('https://qadam-backend-x1d2.onrender.com/api/requests/student', {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if(reqStudentRes.ok) setStudentRequests(await reqStudentRes.json());
 
             // Fetch admin users if admin
             if (user && user.role === 'admin') {
-                const usersRes = await fetch('https://qadam-backend.onrender.com/api/users', {
+                const usersRes = await fetch('https://qadam-backend-x1d2.onrender.com/api/users', {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 if(usersRes.ok) setAllUsers(await usersRes.json());
@@ -64,7 +64,7 @@ function Profile() {
     const handleUpdateInfo = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch('https://qadam-backend.onrender.com/api/auth/update', {
+            const response = await fetch('https://qadam-backend-x1d2.onrender.com/api/auth/update', {
                 method: 'PUT',
                 headers: { 
                     'Content-Type': 'application/json',
@@ -87,7 +87,7 @@ function Profile() {
     const handleDeleteCourse = async (id) => {
         if(!window.confirm('Курсты өшіресіз бе?')) return;
         try {
-            const res = await fetch(`https://qadam-backend.onrender.com/api/courses/${id}`, {
+            const res = await fetch(`https://qadam-backend-x1d2.onrender.com/api/courses/${id}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}` }
             });
@@ -97,7 +97,7 @@ function Profile() {
 
     const handleRequest = async (id, status) => {
         try {
-            const res = await fetch(`https://qadam-backend.onrender.com/api/requests/${id}`, {
+            const res = await fetch(`https://qadam-backend-x1d2.onrender.com/api/requests/${id}`, {
                 method: 'PUT',
                 headers: { 
                     'Content-Type': 'application/json',
@@ -111,7 +111,7 @@ function Profile() {
 
     const toggleBlockUser = async (id, currentStatus) => {
         try {
-            const res = await fetch(`https://qadam-backend.onrender.com/api/users/${id}/block`, {
+            const res = await fetch(`https://qadam-backend-x1d2.onrender.com/api/users/${id}/block`, {
                 method: 'PUT',
                 headers: { 
                     'Content-Type': 'application/json',
@@ -126,7 +126,7 @@ function Profile() {
     const handleDeleteUser = async (id) => {
         if(!window.confirm('Пайдаланушыны өшіресіз бе?')) return;
         try {
-            const res = await fetch(`https://qadam-backend.onrender.com/api/users/${id}`, {
+            const res = await fetch(`https://qadam-backend-x1d2.onrender.com/api/users/${id}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}` }
             });

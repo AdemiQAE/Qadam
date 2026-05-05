@@ -19,7 +19,7 @@ function Contact() {
 
     const fetchMessages = async () => {
         try {
-            const res = await fetch('https://qadam-backend.onrender.com/api/messages', {
+            const res = await fetch('https://qadam-backend-x1d2.onrender.com/api/messages', {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (res.ok) {
@@ -31,7 +31,7 @@ function Contact() {
                 data.forEach(m => {
                     if (m.status === 'replied' && m.user_read === 0) {
                         hasUnread = true;
-                        fetch(`https://qadam-backend.onrender.com/api/messages/${m.id}/read`, {
+                        fetch(`https://qadam-backend-x1d2.onrender.com/api/messages/${m.id}/read`, {
                             method: 'PATCH',
                             headers: { 'Authorization': `Bearer ${token}` }
                         });
@@ -50,7 +50,7 @@ function Contact() {
         if (!newMsg.trim()) return;
 
         try {
-            const res = await fetch('https://qadam-backend.onrender.com/api/messages', {
+            const res = await fetch('https://qadam-backend-x1d2.onrender.com/api/messages', {
                 method: 'POST',
                 headers: { 
                     'Content-Type': 'application/json',

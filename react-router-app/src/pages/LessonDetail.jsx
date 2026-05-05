@@ -20,7 +20,7 @@ function LessonDetail() {
 
     const fetchLesson = async () => {
         try {
-            const res = await fetch(`https://qadam-backend.onrender.com/api/lessons/${lessonId}`, {
+            const res = await fetch(`https://qadam-backend-x1d2.onrender.com/api/lessons/${lessonId}`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (res.ok) {
@@ -35,7 +35,7 @@ function LessonDetail() {
 
     const fetchQuestions = async () => {
         try {
-            const res = await fetch(`https://qadam-backend.onrender.com/api/lessons/${lessonId}/questions`, {
+            const res = await fetch(`https://qadam-backend-x1d2.onrender.com/api/lessons/${lessonId}/questions`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (res.ok) {
@@ -78,7 +78,7 @@ function LessonDetail() {
         }
 
         try {
-            const res = await fetch(`https://qadam-backend.onrender.com/api/lessons/${lessonId}/submit-test`, {
+            const res = await fetch(`https://qadam-backend-x1d2.onrender.com/api/lessons/${lessonId}/submit-test`, {
                 method: 'POST',
                 headers: { 
                     'Content-Type': 'application/json',

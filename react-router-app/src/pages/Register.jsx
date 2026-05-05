@@ -23,7 +23,7 @@ function Register() {
         }
         
         try {
-            const response = await fetch('https://qadam-backend.onrender.com/api/auth/register', {
+            const response = await fetch('https://qadam-backend-x1d2.onrender.com/api/auth/register', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ name: formData.name, email: formData.email, password: formData.password })
