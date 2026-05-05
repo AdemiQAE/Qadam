@@ -13,6 +13,7 @@ function CourseDetail() {
     const [reqStatus, setReqStatus] = useState(null);
     const [error, setError] = useState('');
     const [results, setResults] = useState([]);
+    const [isSubmitting, setIsSubmitting] = useState(false);
     
     // For adding lesson
     const [newLesson, setNewLesson] = useState({ title: '', video_url: '', content_text: '' });
@@ -99,10 +100,12 @@ function CourseDetail() {
 
     const handleAddLesson = async (e) => {
         e.preventDefault();
+        if(isSubmitting) return;
         if(!newLesson.title.trim() || !newLesson.content_text.trim()) {
             alert('Сабақ атауы мен мәтіні бос болмауы керек!');
             return;
         }
+        setIsSubmitting(true);
         try {
             const res = await fetch(`https://qadam-backend-x1d2.onrender.com/api/courses/${id}/lessons`, {
                 method: 'POST',
@@ -116,6 +119,18 @@ function CourseDetail() {
                 setNewLesson({ title: '', video_url: '', content_text: '' });
                 fetchLessons();
             }
+        } catch (e) { console.error(e); }
+        setIsSubmitting(false);
+    };
+
+    const handleDeleteLesson = async (lessonId) => {
+        if(!window.confirm('Сабақты өшіресіз бе?')) return;
+        try {
+            const res = await fetch(`https://qadam-backend-x1d2.onrender.com/api/lessons/${lessonId}`, {
+                method: 'DELETE',
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if(res.ok) fetchLessons();
         } catch (e) { console.error(e); }
     };
 
@@ -196,6 +211,12 @@ function CourseDetail() {
                 <p><strong>{t('course-students')}</strong> {course.students_count}</p>
             </div>
 
+            {isAuthor && (
+                <div style={{ marginTop: '15px' }}>
+                    <Link to="/profile" style={{ color: 'var(--primary-color)', fontWeight: 'bold' }}>&rarr; Студенттердің сұраныстарын басқару (Жеке кабинет)</Link>
+                </div>
+            )}
+
             {error && <p style={{ color: 'red', marginTop: '15px' }}>{error}</p>}
 
             {!user ? (
@@ -203,15 +224,15 @@ function CourseDetail() {
                     <p>Курсқа жазылу үшін жүйеге кіріңіз.</p>
                     <Link to="/login" className="btn" style={{ display: 'inline-block', marginTop: '10px' }}>Кіру</Link>
                 </div>
-            ) : !isAuthor && reqStatus === null ? (
+            ) : !isAuthor && !isFree && reqStatus === null ? (
                 <button className="btn" onClick={handleRequestPermission} style={{ marginTop: '30px', background: '#28a745' }}>Курсты өтуге рұқсат сұрау</button>
-            ) : !isAuthor && reqStatus === 'pending' ? (
+            ) : !isAuthor && !isFree && reqStatus === 'pending' ? (
                 <p style={{ marginTop: '30px', color: 'orange', fontWeight: 'bold' }}>Сұраныс жіберілді. Автордың рұқсатын күтіңіз.</p>
-            ) : !isAuthor && reqStatus === 'rejected' ? (
+            ) : !isAuthor && !isFree && reqStatus === 'rejected' ? (
                 <p style={{ marginTop: '30px', color: 'red', fontWeight: 'bold' }}>Автор сізге бұл курсты оқуға рұқсат бермеді.</p>
             ) : null}
 
-            {(isAuthor || reqStatus === 'approved') && (
+            {(isAuthor || isFree || reqStatus === 'approved') && (
                 <div style={{ marginTop: '30px' }}>
                     <h3>{t('course-lessons-list')}</h3>
                     
@@ -222,7 +243,7 @@ function CourseDetail() {
                                 <input required type="text" placeholder={t('course-lesson-title')} value={newLesson.title} onChange={e => setNewLesson({...newLesson, title: e.target.value})} style={{ padding: '8px' }} />
                                 <input type="url" placeholder={t('course-lesson-video')} value={newLesson.video_url} onChange={e => setNewLesson({...newLesson, video_url: e.target.value})} style={{ padding: '8px' }} />
                                 <textarea required placeholder={t('course-lesson-text')} value={newLesson.content_text} onChange={e => setNewLesson({...newLesson, content_text: e.target.value})} style={{ padding: '8px', minHeight: '80px' }} />
-                                <button type="submit" className="btn" style={{ alignSelf: 'flex-start' }}>{t('course-btn-add')}</button>
+                                <button type="submit" className="btn" style={{ alignSelf: 'flex-start' }} disabled={isSubmitting}>{isSubmitting ? 'Сақталуда...' : t('course-btn-add')}</button>
                             </form>
                         </div>
                     )}
@@ -234,7 +255,8 @@ function CourseDetail() {
                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                         <h4>{lesson.title}</h4>
                                         <div>
-                                            {isAuthor && <button onClick={() => loadQuestions(lesson.id)} className="btn" style={{ marginRight: '10px', background: '#17a2b8' }}>{t('course-btn-test')}</button>}
+                                            {isAuthor && <button onClick={() => handleDeleteLesson(lesson.id)} className="btn" style={{ marginRight: '10px', background: 'red', padding: '5px 10px' }}>Өшіру</button>}
+                                            {isAuthor && <button onClick={() => loadQuestions(lesson.id)} className="btn" style={{ marginRight: '10px', background: '#17a2b8', padding: '5px 10px' }}>{t('course-btn-test')}</button>}
                                             <Link to={`/course/${course.id}/lesson/${lesson.id}`} className="btn" style={{ padding: '5px 10px' }}>{t('course-btn-start')}</Link>
                                         </div>
                                     </div>
@@ -242,7 +264,10 @@ function CourseDetail() {
                                     {/* TEST BUILDER */}
                                     {isAuthor && activeLessonId === lesson.id && (
                                         <div style={{ marginTop: '20px', padding: '15px', background: 'var(--bg-body)', border: '1px dashed var(--primary-color)' }}>
-                                            <h5>{t('test-title')} ({questions.length})</h5>
+                                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                                <h5>{t('test-title')} ({questions.length})</h5>
+                                                <button onClick={() => setActiveLessonId(null)} className="btn" style={{ background: 'gray', padding: '5px 10px', fontSize: '0.8rem' }}>Жабу ✖</button>
+                                            </div>
                                             
                                             {/* List of current questions */}
                                             {questions.map((q, idx) => (
@@ -313,7 +338,7 @@ function CourseDetail() {
             )}
 
             {/* Test Results Section */}
-            {(isAuthor || reqStatus === 'approved') && results.length > 0 && (
+            {(isAuthor || isFree || reqStatus === 'approved') && results.length > 0 && (
                 <div style={{ marginTop: '40px', background: 'var(--bg-body)', padding: '20px', borderRadius: '8px' }}>
                     <h3>{t('test-results-title')}</h3>
                     <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '15px' }}>

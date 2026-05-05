@@ -244,7 +244,9 @@ app.get('/api/courses/:courseId/lessons', verifyToken, async (req, res) => {
         const reqRes = await pool.query(`SELECT status FROM course_requests WHERE course_id = $1 AND student_id = $2`, [req.params.courseId, req.userId]);
         const reqStatus = reqRes.rows[0];
 
-        if (course.teacher_id !== req.userId && req.userRole !== 'admin' && (!reqStatus || reqStatus.status !== 'approved')) {
+        const isFree = course.price == 0 || course.price === '0' || String(course.price).toLowerCase() === 'тегін';
+
+        if (course.teacher_id !== req.userId && req.userRole !== 'admin' && !isFree && (!reqStatus || reqStatus.status !== 'approved')) {
             return res.status(403).json({ error: 'You do not have permission to view this course content' });
         }
 
@@ -269,6 +271,26 @@ app.post('/api/courses/:courseId/lessons', verifyToken, async (req, res) => {
         const result = await pool.query(`INSERT INTO lessons (course_id, title, video_url, content_text) VALUES ($1, $2, $3, $4) RETURNING id`, 
             [req.params.courseId, title, video_url, content_text]);
         res.status(201).json({ message: 'Lesson created successfully', id: result.rows[0].id });
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
+app.delete('/api/lessons/:lessonId', verifyToken, async (req, res) => {
+    try {
+        const lessonRes = await pool.query(`SELECT course_id FROM lessons WHERE id = $1`, [req.params.lessonId]);
+        const lesson = lessonRes.rows[0];
+        if (!lesson) return res.status(404).json({ error: 'Lesson not found' });
+
+        const courseRes = await pool.query(`SELECT teacher_id FROM courses WHERE id = $1`, [lesson.course_id]);
+        const course = courseRes.rows[0];
+
+        if (course.teacher_id !== req.userId && req.userRole !== 'admin') {
+            return res.status(403).json({ error: 'Unauthorized' });
+        }
+
+        await pool.query(`DELETE FROM lessons WHERE id = $1`, [req.params.lessonId]);
+        res.json({ message: 'Lesson deleted successfully' });
     } catch (e) {
         res.status(500).json({ error: e.message });
     }
